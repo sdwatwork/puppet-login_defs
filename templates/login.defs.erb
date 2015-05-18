@@ -72,3 +72,9 @@ USERGROUPS_ENAB <%= @usergroups_enab %>
 
 # Use SHA512 to encrypt password.
 ENCRYPT_METHOD <%= @encrypt_method %>
+
+<% if @options -%>
+<% options.each do |option,value| -%>
+<%= option  value %>
+<% end -%>
+<% end -%>

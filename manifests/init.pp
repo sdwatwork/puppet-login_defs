@@ -15,6 +15,7 @@ class login_defs (
   $usergroups_enab = $::login_defs::params::usergroups_enab,
   $encrypt_method  = $::login_defs::params::encrypt_method,
   $template        = 'login_defs/login.defs.erb',
+  $options         = {},
 ) inherits login_defs::params {
 
   validate_absolute_path($mail_dir)
@@ -29,6 +30,7 @@ class login_defs (
   validate_re($create_home, '^(yes|no)$')
   validate_re($umask, '^\d{3,4}$')
   validate_re($usergroups_enab, '^(yes|no)$')
+  validate_hash($options)
 
   file { '/etc/login.defs':
     ensure  => 'file',

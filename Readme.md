@@ -38,8 +38,28 @@ options in the `login.defs` file.
 * `usergroups_enab`
 * `encrypt_method`
 
-You can also specify a custom template of your own via the `template`
-parameter.
+Additional parameters:
+
+* `template`
+
+Specifies a custom template to use.  Defaults to `login_defs/login.defs.erb`
+
+* `options`
+
+Extra options to add to the file.  These will be appended to the end.
+This should be a hash.
+
+For example:
+
+```puppet
+class { '::login_defs':
+  options => {
+    'MD5_CRYPT_ENAB' => 'no',
+    'FAIL_DELAY'     => '5',
+  },
+}
+```
+
 
 ## Limitations
 

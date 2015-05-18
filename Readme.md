@@ -67,4 +67,4 @@ Only supports RedHat family operating systems right now.
 
 ## Authors
 
-Josh Beard, jbeard@usgs.gov
+Josh Beard, josh@signalboxes.net

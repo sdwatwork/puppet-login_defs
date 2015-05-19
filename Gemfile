@@ -18,7 +18,7 @@ group :development, :unit_tests do
   gem 'puppet-lint',             :require => false
   gem 'simplecov',               :require => false
   gem 'puppet_facts',            :require => false
-#  gem 'json',                    :require => false
+  gem 'json',                    :require => false
 end
 
 beaker_version = ENV['BEAKER_VERSION']

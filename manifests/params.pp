@@ -3,20 +3,55 @@ class login_defs::params {
 
   case $::osfamily {
     'RedHat': {
-      $mail_dir        = '/var/spool/mail'
-      $pass_max_days   = '99999'
-      $pass_min_days   = '0'
-      $pass_min_len    = '5'
-      $pass_warn_age   = '7'
-      $uid_min         = '500'
-      $uid_max         = '60000'
-      $gid_min         = '500'
-      $gid_max         = '60000'
-      $create_home     = 'yes'
-      $umask           = '022'
-      $usergroups_enab = 'yes'
-      $encrypt_method  = 'SHA512'
-      $userdel_cmd     = undef
+      $default_options = {
+        'CREATE_HOME'     => 'yes',
+        'ENCRYPT_METHOD'  => 'SHA512',
+        'GID_MAX'         => '60000',
+        'GID_MIN'         => '500',
+        'MAIL_DIR'        => '/var/spool/mail',
+        'PASS_MAX_DAYS'   => '99999',
+        'PASS_MIN_LEN'    => '5',
+        'PASS_WARN_AGE'   => '7',
+        'UID_MAX'         => '60000',
+        'UID_MIN'         => '500',
+        'UMASK'           => '022',
+        'USERGROUPS_ENAB' => 'yes',
+      }
+    }
+    'Debian': {
+      $default_options = {
+        'CHFN_RESTRICT'    => 'rwh',
+        'CREATE_HOME'      => 'yes',
+        'DEFAULT_HOME'     => 'yes',
+        'ENCRYPT_METHOD'   => 'SHA512',
+        'ENV_PATH'         => 'PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games',
+        'ENV_SUPATH'       => 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+        'ERASECHAR'        => '0177',
+        'FAILLOG_ENAB'     => 'yes',
+        'FTMP_FILE'        => '/var/log/btmp',
+        'GID_MAX'          => '60000',
+        'GID_MIN'          => '1000',
+        'HUSHLOGIN_FILE'   => '.hushlogin',
+        'KILLCHAR'         => '025',
+        'LOG_OK_LOGINS'    => 'no',
+        'LOG_UNKFAIL_ENAB' => 'no',
+        'LOGIN_RETRIES'    => '5',
+        'LOGIN_TIMEOUT'    => '60',
+        'MAIL_DIR'         => '/var/mail',
+        'MD5_CRYPT_ENAB'   => 'no',
+        'PASS_MAX_DAYS'    => '99999',
+        'PASS_MIN_DAYS'    => '0',
+        'PASS_WARN_AGE'    => '7',
+        'SU_NAME'          => 'su',
+        'SYSLOG_SG_ENAB'   => 'yes',
+        'SYSLOG_SU_ENAB'   => 'yes',
+        'TTYGROUP'         => 'tty',
+        'TTYPERM'          => '0600',
+        'UID_MAX'          => '60000',
+        'UID_MIN'          => '1000',
+        'UMASK'            => '022',
+        'USERGROUPS_ENAB'  => 'yes',
+      }
     }
     default: {
       fail("${::osfamily} not supported by ${module_name}")

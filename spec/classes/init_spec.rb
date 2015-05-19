@@ -8,6 +8,17 @@ describe 'login_defs' do
   end
 
   context 'with default parameters' do
+    header = <<-EOT
+#
+# HEADER: This file is managed by Puppet
+# HEADER: Do not make modifications directly!
+#
+###############################################################################
+#
+# /etc/login.defs - Configuration control definitions for the login package.
+#
+EOT
+
     default_options = {
       'CREATE_HOME'     => 'yes',
       'ENCRYPT_METHOD'  => 'SHA512',
@@ -25,7 +36,7 @@ describe 'login_defs' do
     content = default_options.map{|k,v| "#{k} #{v}"}.join("\n")
 
     it { should contain_class('login_defs') }
-    it { should contain_file('/etc/login.defs').with_content(/#{content}/) }
+    it { should contain_file('/etc/login.defs').with_content(/#{header}#{content}/) }
   end
 
   context 'on an unsupported osfamily' do

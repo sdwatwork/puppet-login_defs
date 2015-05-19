@@ -1,6 +1,10 @@
 .*.sw?
 pkg
-spec/fixtures
+
+spec/fixtures/modules/*
+!spec/fixtures/modules/myorg/
+spec/fixtures/manifests
+
 .rspec_system
 .vagrant
 .bundle

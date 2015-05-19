@@ -1,5 +1,7 @@
 # login_defs
 
+[![Build Status](https://travis-ci.org/joshbeard/puppet-login_defs.svg?branch=master)](https://travis-ci.org/joshbeard/puppet-login_defs)
+
 ## Overview
 
 Manages `/etc/login.defs` on Linux systems.

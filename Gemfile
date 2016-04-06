@@ -11,7 +11,7 @@ def location_for(place, fake_version = nil)
 end
 
 group :development, :unit_tests do
-  gem 'rake',                    :require => false
+  gem 'rake', '~> 10.0',         :require => false
   gem 'rspec-core', '3.1.7',     :require => false
   gem 'rspec-puppet', '~> 2.1',  :require => false
   gem 'puppetlabs_spec_helper',  :require => false

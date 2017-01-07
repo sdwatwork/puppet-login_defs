@@ -114,7 +114,7 @@ class login_defs::params {
         'CHFN_RESTRICT'    => 'rwh',
         'DEFAULT_HOME'     => 'yes',
         'USERGROUPS_ENAB'  => 'yes',
-      }',
+      }'
     }
     default: {
       fail("${::osfamily} not supported by ${module_name}")

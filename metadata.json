@@ -59,6 +59,13 @@
     },
     {
       "operatingsystem": "Gentoo"
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "11 SP4",
+        "12 SP2"
+      ]
     }
   ]
 }

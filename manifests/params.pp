@@ -3,6 +3,8 @@
 #
 class login_defs::params {
 
+  $sles_char_clas_var='[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.-]*[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.$-]\?'
+
   case $::osfamily {
     'RedHat': {
       case $::operatingsystemmajrelease {
@@ -41,6 +43,96 @@ class login_defs::params {
             'UID_MIN'         => '500',
             'UMASK'           => '022',
             'USERGROUPS_ENAB' => 'yes',
+          }
+        }
+      }
+    }
+    'Suse': {
+      case $::operatingsystemmajrelease {
+        '12': {
+          $default_options = {
+            'FAIL_DELAY'         => '3',
+            'LOG_UNKFAIL_ENAB'   => 'no',
+            'LOG_OK_LOGINS'      => 'no',
+            'SYSLOG_SU_ENAB'     => 'yes',
+            'SYSLOG_SG_ENAB'     => 'yes',
+            'CONSOLE'            => '/etc/securetty',
+            'MOTD_FILE'          => '/etc/motd',
+            'HUSHLOGIN_FILE'     => '/etc/hushlogins',
+            'ENV_SUPATH'         => 'PATH=/sbin:/bin:/usr/sbin:/usr/bin',
+            'ENV_PATH'           => 'PATH=/usr/local/bin:/usr/bin:/bin',
+            'ENV_ROOTPATH'       => '/sbin:/bin:/usr/sbin:/usr/bin',
+            'TTYGROUP'           => 'tty',
+            'TTYPERM'            => '0620',
+            'ERASECHAR'          => '0177',
+            'KILLCHAR'           => '025',
+            'UMASK'              => '022',
+            'PASS_MAX_DAYS'      => '99999',
+            'PASS_MIN_DAYS'      => '0',
+            'PASS_WARN_AGE'      => '7',
+            'UID_MIN'            => '1000',
+            'UID_MAX'            => '60000',
+            'SYS_UID_MIN'        => '100',
+            'SYS_UID_MAX'        => '499',
+            'SUB_UID_MIN'        => '100000',
+            'SUB_UID_MAX'        => '600100000',
+            'SUB_UID_COUNT'      => '65536',
+            'GID_MIN'            => '1000',
+            'GID_MAX'            => '60000',
+            'SYS_GID_MIN'        => '100',
+            'SYS_GID_MAX'        => '499',
+            'SUB_GID_MIN'        => '100000',
+            'SUB_GID_MAX'        => '600100000',
+            'SUB_GID_COUNT'      => '65536',
+            'LOGIN_RETRIES'      => '3',
+            'LOGIN_TIMEOUT'      => '60',
+            'CHFN_RESTRICT'      => 'rwh',
+            'ENCRYPT_METHOD'     => 'SHA512',
+            'ENCRYPT_METHOD_NIS' => 'DES',
+            'DEFAULT_HOME'       => 'yes',
+            'USERGROUPS_ENAB'    => 'no',
+            'CREATE_HOME'        => 'no',
+            'CHARACTER_CLASS'    => $sles_char_clas_var,
+            'GROUPADD_CMD'       => '/usr/sbin/groupadd.local',
+            'USERADD_CMD'        => '/usr/sbin/useradd.local',
+            'USERDEL_PRECMD'     => '/usr/sbin/userdel-pre.local',
+            'USERDEL_POSTCMD'    => '/usr/sbin/userdel-post.local',
+          }
+        }
+        default: {
+          $default_options = {
+            'DEFAULT_HOME'     => 'yes',
+            'ENV_PATH'         => '/usr/local/bin:/usr/bin:/bin',
+            'ENV_ROOTPATH'     => '/sbin:/bin:/usr/sbin:/usr/bin',
+            'FAIL_DELAY'       => '3',
+            'HUSHLOGIN_FILE'   => '/etc/hushlogins',
+            'LASTLOG_ENAB'     => 'yes',
+            'LOG_UNKFAIL_ENAB' => 'no',
+            'LOGIN_RETRIES'    => '3',
+            'LOGIN_TIMEOUT'    => '60',
+            'MOTD_FILE'        => '/etc/motd',
+            'TTYTYPE_FILE'     => '/etc/ttytype',
+            'TTYGROUP'         => 'tty',
+            'TTYPERM'          => '0620',
+            'CHFN_AUTH'        => 'yes',
+            'CHFN_RESTRICT'    => 'rwh',
+            'PASS_MAX_DAYS'    => '99999',
+            'PASS_MIN_DAYS'    => '0',
+            'PASS_WARN_AGE'    => '7',
+            'SYSTEM_UID_MIN'   => '100',
+            'SYSTEM_UID_MAX'   => '499',
+            'UID_MIN'          => '1000',
+            'UID_MAX'          => '60000',
+            'SYSTEM_GID_MIN'   => '100',
+            'SYSTEM_GID_MAX'   => '499',
+            'GID_MIN'          => '1000',
+            'GID_MAX'          => '60000',
+            'CHARACTER_CLASS'  => $sles_char_clas_var,
+            'UMASK'            => '022',
+            'GROUPADD_CMD'     => '/usr/sbin/groupadd.local',
+            'USERADD_CMD'      => '/usr/sbin/useradd.local',
+            'USERDEL_PRECMD'   => '/usr/sbin/userdel-pre.local',
+            'USERDEL_POSTCMD'  => '/usr/sbin/userdel-post.local',
           }
         }
       }
@@ -114,7 +206,7 @@ class login_defs::params {
         'CHFN_RESTRICT'    => 'rwh',
         'DEFAULT_HOME'     => 'yes',
         'USERGROUPS_ENAB'  => 'yes',
-      }'
+      }
     }
     default: {
       fail("${::osfamily} not supported by ${module_name}")

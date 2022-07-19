@@ -1,9 +1,8 @@
 require 'spec_helper'
 describe 'login_defs' do
-
   let(:facts) do
     {
-      :osfamily => 'RedHat',
+      osfamily: 'RedHat',
     }
   end
 
@@ -33,19 +32,19 @@ EOT
       'UMASK'           => '022',
       'USERGROUPS_ENAB' => 'yes',
     }
-    content = default_options.map{|k,v| "#{k} #{v}"}.join("\n")
+    content = default_options.map { |k, v| "#{k} #{v}" }.join("\n")
 
-    it { should contain_class('login_defs') }
-    it { should contain_file('/etc/login.defs').with_content(/#{header}#{content}/) }
+    it { is_expected.to contain_class('login_defs') }
+    it { is_expected.to contain_file('/etc/login.defs').with_content(%r{#{header}#{content}}) }
   end
 
   context 'on an unsupported osfamily' do
-    let(:facts) {{ :osfamily => 'Windows' }}
-    it 'should fail when osfamily is windows' do
-      should raise_error(
-        Puppet::Error, /Windows not supported by login_defs/
+    let(:facts) { { osfamily: 'Windows' } }
+
+    it 'fails when osfamily is windows' do
+      is_expected.to raise_error(
+        Puppet::Error, %r{Windows not supported by login_defs}
       )
     end
   end
-
 end

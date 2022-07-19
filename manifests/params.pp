@@ -3,7 +3,12 @@
 #
 class login_defs::params {
 
-  $sles_char_clas_var='[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.-]*[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.$-]\?'
+  $sles_char_clas_list = [
+    '[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_]',
+    '[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.-]*',
+    '[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.$-]\?',
+  ]
+  $sles_char_clas_var = join($sles_char_clas_list, '')
 
   case $::osfamily {
     'RedHat': {
@@ -36,7 +41,7 @@ class login_defs::params {
             'SYS_GID_MIN'     => '201',
             'SYS_UID_MAX'     => '999',
             'SYS_UID_MIN'     => '201',
-         }
+          }
         }
         '7': {
           $os_options = {
@@ -46,7 +51,7 @@ class login_defs::params {
             'SYS_UID_MIN'     => '201',
           }
         }
-        'default': {
+        default: {
           $os_options = {
             'GID_MIN'         => '500',
             'UID_MIN'         => '500',

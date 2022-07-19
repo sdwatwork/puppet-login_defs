@@ -7,45 +7,55 @@ class login_defs::params {
 
   case $::osfamily {
     'RedHat': {
+
+      # Assign variables that are common across all RHEL major releases.
+      # Any variable that needs its variable overridden will be taken care of
+      # in the subsequent case statement for the major os version.
+      $common_options = {
+        'CREATE_HOME'     => 'yes',
+        'ENCRYPT_METHOD'  => 'SHA512',
+        'GID_MAX'         => '60000',
+        'GID_MIN'         => '1000',
+        'MAIL_DIR'        => '/var/spool/mail',
+        'PASS_MAX_DAYS'   => '99999',
+        'PASS_MIN_DAYS'   => '0',
+        'PASS_MIN_LEN'    => '5',
+        'PASS_WARN_AGE'   => '7',
+        'UID_MAX'         => '60000',
+        'UID_MIN'         => '1000',
+        'UMASK'           => '077',
+        'USERGROUPS_ENAB' => 'yes',
+      }
+
       case $::operatingsystemmajrelease {
-        '7': {
-          $default_options = {
-            'CREATE_HOME'     => 'yes',
-            'ENCRYPT_METHOD'  => 'SHA512',
-            'GID_MAX'         => '60000',
-            'GID_MIN'         => '1000',
-            'MAIL_DIR'        => '/var/spool/mail',
-            'PASS_MAX_DAYS'   => '99999',
-            'PASS_MIN_DAYS'   => '0',
-            'PASS_MIN_LEN'    => '5',
-            'PASS_WARN_AGE'   => '7',
+        '8': {
+          $os_options = {
+            'HOME_MODE'       => '0700',
+            'UMASK'           => '022',
             'SYS_GID_MAX'     => '999',
             'SYS_GID_MIN'     => '201',
             'SYS_UID_MAX'     => '999',
             'SYS_UID_MIN'     => '201',
-            'UID_MAX'         => '60000',
-            'UID_MIN'         => '1000',
-            'UMASK'           => '077',
-            'USERGROUPS_ENAB' => 'yes',
+         }
+        }
+        '7': {
+          $os_options = {
+            'SYS_GID_MAX'     => '999',
+            'SYS_GID_MIN'     => '201',
+            'SYS_UID_MAX'     => '999',
+            'SYS_UID_MIN'     => '201',
           }
         }
-        default: {
-          $default_options = {
-            'CREATE_HOME'     => 'yes',
-            'ENCRYPT_METHOD'  => 'SHA512',
-            'GID_MAX'         => '60000',
+        'default': {
+          $os_options = {
             'GID_MIN'         => '500',
-            'MAIL_DIR'        => '/var/spool/mail',
-            'PASS_MAX_DAYS'   => '99999',
-            'PASS_MIN_LEN'    => '5',
-            'PASS_WARN_AGE'   => '7',
-            'UID_MAX'         => '60000',
             'UID_MIN'         => '500',
-            'UMASK'           => '022',
-            'USERGROUPS_ENAB' => 'yes',
           }
         }
       }
+
+      # Merge the common options with the major os-specific options.
+      $default_options = merge($common_options, $os_options)
     }
     'Suse': {
       case $::operatingsystemmajrelease {
